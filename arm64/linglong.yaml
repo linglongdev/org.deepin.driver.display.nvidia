@@ -1,0 +1,49 @@
+version: "1"
+
+package:
+  id: org.deepin.driver.display.nvidia.580-82-07
+  name: NVIDIA-Linux-aarch64-580.82.07
+  version: 1.0.0.0
+  kind: extension
+  description: |
+    nvidia display driver version 580.82.07
+
+base: org.deepin.base/23.1.0 #set the base environment, this can be changed.
+
+sources:
+  - kind: file
+    url: https://ci.deepin.com/repo/deepin/deepin-community/stable/pool/commercial/n/nvidia-graphics-drivers/nvidia-graphics-drivers_580.82.07.orig.tar.xz
+    digest: 84a30cf350cc10e1fa4ab2899327cd56925375de0949ee82b4d0f63b7f13f715
+    name: nvidia-graphics-drivers.tar.xz
+
+build: |
+  mkdir -p nvidia-graphics-drivers
+  tar --no-same-owner -xf /project/linglong/sources/nvidia-graphics-drivers.tar.xz -C nvidia-graphics-drivers
+
+  driver_name=NVIDIA-Linux-aarch64-580.82.07
+
+  rm -rf ${driver_name}
+
+  bash "nvidia-graphics-drivers/arm64/${driver_name}.run" -x
+
+  mkdir -p $PREFIX/orig
+  cp -r "${driver_name}"/* $PREFIX/orig/
+
+  mkdir -p $PREFIX/glvnd/egl_vendor.d/
+  ln -st $PREFIX/glvnd/egl_vendor.d/ $PREFIX/orig/10_nvidia.json
+
+  mkdir -p $PREFIX/egl/egl_external_platform.d/
+  ln -st $PREFIX/egl/egl_external_platform.d/ $PREFIX/orig/10_nvidia.json
+  ln -st $PREFIX/egl/egl_external_platform.d/ $PREFIX/orig/15_nvidia_gbm.json
+  ln -st $PREFIX/egl/egl_external_platform.d/ $PREFIX/orig/20_nvidia_xcb.json
+  ln -st $PREFIX/egl/egl_external_platform.d/ $PREFIX/orig/20_nvidia_xlib.json
+
+  mkdir -p $PREFIX/vulkan/icd.d/
+  ln -st $PREFIX/vulkan/icd.d/ $PREFIX/orig/nvidia_icd.json
+
+  mkdir -p $PREFIX/etc
+  cp ld.so.conf $PREFIX/etc/
+
+  ldconfig
+
+  echo 'build done'
