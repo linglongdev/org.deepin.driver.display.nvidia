@@ -1,26 +1,26 @@
 version: "1"
 
 package:
-  id: org.deepin.driver.display.nvidia.580-82-07
-  name: NVIDIA-Linux-x86_64-580.82.07
+  id: org.deepin.driver.display.nvidia.580-105-08
+  name: NVIDIA-Linux-x86_64-580.105.08
   version: 1.0.0.0
   kind: extension
   description: |
-    nvidia display driver version 580.82.07
+    nvidia display driver version 580.105.08
 
 base: org.deepin.base/23.1.0 #set the base environment, this can be changed.
 
 sources:
   - kind: file
-    url: https://ci.deepin.com/repo/deepin/deepin-community/stable/pool/commercial/n/nvidia-graphics-drivers/nvidia-graphics-drivers_580.82.07.orig.tar.xz
-    digest: 84a30cf350cc10e1fa4ab2899327cd56925375de0949ee82b4d0f63b7f13f715
+    url: https://ci.deepin.com/repo/deepin/deepin-community/stable/pool/main/n/nvidia-graphics-drivers/nvidia-graphics-drivers_580.105.08.orig.tar.xz
+    digest: 0384bd59c898e3f7c689e8248025d585f8ffa224137d3d4745dad9294789d1ed
     name: nvidia-graphics-drivers.tar.xz
 
 build: |
   mkdir -p nvidia-graphics-drivers
   tar --no-same-owner -xf /project/linglong/sources/nvidia-graphics-drivers.tar.xz -C nvidia-graphics-drivers
 
-  driver_name=NVIDIA-Linux-x86_64-580.82.07
+  driver_name=NVIDIA-Linux-x86_64-580.105.08
 
   rm -rf ${driver_name}
 
