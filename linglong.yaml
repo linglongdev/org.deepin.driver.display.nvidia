@@ -3,12 +3,17 @@ version: "1"
 package:
   id: org.deepin.driver.display.nvidia.580-105-08
   name: NVIDIA-Linux-x86_64-580.105.08
-  version: 1.0.0.0
+  version: 1.0.0.1
   kind: extension
   description: |
     nvidia display driver version 580.105.08
+  libs: [orig]
+  env:
+    __EGL_VENDOR_LIBRARY_DIRS: $PREFIX/glvnd/egl_vendor.d:$ORIGIN
+    __EGL_EXTERNAL_PLATFORM_CONFIG_DIRS: $PREFIX/egl/egl_external_platform.d
+    VK_ADD_DRIVER_FILES: $PREFIX/vulkan/icd.d/nvidia_icd.json
 
-base: org.deepin.base/23.1.0 #set the base environment, this can be changed.
+base: org.deepin.base/23.1.0
 
 sources:
   - kind: file
@@ -42,7 +47,9 @@ build: |
   ln -st $PREFIX/vulkan/icd.d/ $PREFIX/orig/nvidia_icd.json
 
   mkdir -p $PREFIX/etc
-  cp ld.so.conf $PREFIX/etc/
+  cat << EOF > $PREFIX/etc/ld.so.conf
+  /opt/extensions/org.deepin.driver.display.nvidia.580-105-08/orig
+  EOF
 
   ldconfig
 
