@@ -2,7 +2,7 @@ version: "1"
 
 package:
   id: org.deepin.driver.display.nvidia.580-119-02
-  name: NVIDIA-Linux-x86_64-580.119.02
+  name: NVIDIA-Linux-aarch64-580.119.02
   version: 1.0.0.0
   kind: extension
   description: |
@@ -13,7 +13,7 @@ package:
     __EGL_EXTERNAL_PLATFORM_CONFIG_DIRS: $PREFIX/egl/egl_external_platform.d
     VK_ADD_DRIVER_FILES: $PREFIX/vulkan/icd.d/nvidia_icd.json
 
-base: org.deepin.base/25.2.1
+base: org.deepin.base/25.2.0 #set the base environment, this can be changed.
 
 sources:
   - kind: file
@@ -25,11 +25,11 @@ build: |
   mkdir -p nvidia-graphics-drivers
   tar --no-same-owner -xf /project/linglong/sources/nvidia-graphics-drivers.tar.xz -C nvidia-graphics-drivers
 
-  driver_name=NVIDIA-Linux-x86_64-580.119.02
+  driver_name=NVIDIA-Linux-aarch64-580.119.02
 
   rm -rf ${driver_name}
 
-  bash "nvidia-graphics-drivers/amd64/${driver_name}.run" -x
+  bash "nvidia-graphics-drivers/arm64/${driver_name}.run" -x
 
   mkdir -p $PREFIX/orig
   cp -r "${driver_name}"/* $PREFIX/orig/
@@ -53,4 +53,4 @@ build: |
 
   ldconfig
 
-  echo 'build done'
+  echo 'build done
