@@ -3,7 +3,7 @@ version: "1"
 package:
   id: org.deepin.driver.display.nvidia.580-119-02
   name: NVIDIA-Linux-aarch64-580.119.02
-  version: 1.0.0.0
+  version: 1.0.0.1
   kind: extension
   description: |
     nvidia display driver version 580.119.02
